@@ -1,0 +1,22 @@
+syntax = "proto2";
+
+message DataModel {
+    optional int64 session_id = 1;
+    optional int64 mpid = 2;
+    optional string session_start_time = 3;
+    optional string session_end_time = 4;
+    optional int64 session_duration = 5;
+    optional string ip = 6;
+    optional string country_iso2 = 7;
+    optional string store_code = 8;
+    optional string dispatch_id = 9;
+    optional string variant_id = 10;
+    optional string utm_campaign = 11;
+    optional string utm_medium = 12;
+    optional string utm_source = 13;
+    optional string activity_platform = 14;
+    optional string operating_system = 15;
+    optional string update_date = 16;
+    optional string update_user = 17;
+    optional string _CHANGE_TYPE = 18;
+}

@@ -1,0 +1,6 @@
+--parameters mode=batch
+--parameters bucket_name=les-chiens-bananes-media
+--parameters destination_project_id=gborel-sample-project-staging
+--parameters dataset=gborel-sample-dataset
+--parameters dataset_errors=gborel-sample-dataset-errors
+--parameters table=BANANE

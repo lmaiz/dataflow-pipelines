@@ -1,0 +1,64 @@
+steps:
+  # Tests stage
+  # - name: python:3.8.12-slim
+  #   entrypoint: bash
+  #   args:
+  #     - -c
+  #     - |
+  #       pip install 'pytest==7.3.1'
+  #       pip install 'pytest-custom-exit-code==0.3.0'
+  #       pip install -U -r team_league/requirements.txt
+  #       pytest -v --suppress-no-test-exit-code .
+ 
+  # Step to determine changed folders
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: '/bin/bash'
+    args:
+      - '-c'
+      - |
+        git fetch --depth=2
+        if git diff --dirstat=files,0 HEAD^ HEAD -- dataflow-pipelines/flex* | sed 's/^[ 0-9.]\+% //g' | cut -d'/' -f2 | uniq | grep -q "flex"; then
+          # Save the changed folders to a file for later steps
+          echo "$(git diff --dirstat=files,0 HEAD^ HEAD -- dataflow-pipelines/flex* | sed 's/^[ 0-9.]\+% //g' | cut -d'/' -f2 | uniq)" >> /workspace/changed_folders
+          CLEAN_BRANCH_NAME=$(echo "$BRANCH_NAME" | tr '[:upper:]' '[:lower:]')
+          echo "${CLEAN_BRANCH_NAME////-}" > /workspace/clean_branch_name
+        fi
+    env:
+      - 'BRANCH_NAME=$BRANCH_NAME'
+
+  # Build Flex Template Image stage
+  - name: 'gcr.io/kaniko-project/executor:debug'
+    entrypoint: '/busybox/sh'
+    args:
+      - '-c'
+      - |
+        cd dataflow-pipelines/scripts/
+        ./build_with_kaniko.sh
+    env:
+      - 'LOCATION=$LOCATION'
+      - 'PROJECT_ID=$PROJECT_ID'
+      - 'DOCKER_REPO_NAME=$_DOCKER_REPO_NAME'
+      - 'CI_SERVICE_NAME=cloudbuild-$_ENV'
+
+  # Deploy Flex Template Spec File stage
+  - name: google/cloud-sdk:420.0.0
+    entrypoint: /bin/sh
+    args:
+      - -c
+      - |
+        cd dataflow-pipelines/scripts/
+        ./create_flex_template_spec_file_gcs.sh
+    env:
+      - 'LOCATION=$LOCATION'
+      - 'PROJECT_ID=$PROJECT_ID'
+      - 'DOCKER_REPO_NAME=$_DOCKER_REPO_NAME'
+      - 'SDK_LANGUAGE=PYTHON'
+      - 'DATAFLOW_BUCKET=$_DATAFLOW_BUCKET'
+      - 'CI_SERVICE_NAME=cloudbuild-$_ENV'
+
+options:
+  substitution_option: ALLOW_LOOSE
+  logging: CLOUD_LOGGING_ONLY
+
+# Triggering options for each stage
+timeout: 1200s

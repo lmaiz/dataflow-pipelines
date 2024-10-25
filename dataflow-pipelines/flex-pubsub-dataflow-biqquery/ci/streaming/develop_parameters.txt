@@ -1,0 +1,6 @@
+--parameters mode=streaming
+--parameters pubsub_subscription=gborel-flex-sub
+--parameters destination_project_id=gborel-sample-project-staging
+--parameters dataset=gborel-sample-dataset
+--parameters dataset_errors=gborel-sample-dataset-errors
+--parameters table=BANANE

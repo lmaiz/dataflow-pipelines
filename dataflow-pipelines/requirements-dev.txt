@@ -1,0 +1,4 @@
+ruff
+tenacity==8.3.0
+keyrings.google-artifactregistry-auth
+pip-tools
