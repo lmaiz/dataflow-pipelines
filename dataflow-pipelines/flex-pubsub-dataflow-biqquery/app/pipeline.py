@@ -7,7 +7,7 @@ from apache_beam.options.pipeline_options import (
     StandardOptions,
 )
 from apache_beam.transforms.window import FixedWindows
-from gborelpy.beam_utils import GeneratePath, ParseJSON
+#from gborelpy.beam_utils import GeneratePath, ParseJSON
 from app.runtime_options import RuntimeOptions
 
 
@@ -39,15 +39,15 @@ def run(argv=None):
                 input_date = "2024"
                 data = (
                     p
-                    | "Pipeline init" >> beam.Create([None])
-                    | "Generate input files path"
-                    >> beam.ParDo(
-                        GeneratePath(
-                            bucket=bucket_name,
-                            files_prefix=None,
-                            input_date=None,
-                        )
-                    )
+                    | "Pipeline init" >> beam.Create([input_date])
+                    # | "Generate input files path"
+                    # >> beam.ParDo(
+                    #     GeneratePath(
+                    #         bucket=bucket_name,
+                    #         files_prefix=None,
+                    #         input_date=None,
+                    #     )
+                    # )
                     | "Show paths" >> beam.Map(print)
                     # | "[Session Start] Match files GCS bucket" >> MatchAll()
                     # | "[Session Start] Process Data" >> beam.ParDo(
@@ -64,30 +64,30 @@ def run(argv=None):
                     # )
                     # | "[Session Start] Generate Completion Signal" >> beam.ParDo(CompletionMarker())
                 )
-            elif mode == "streaming":
-                data = (
-                    p
-                    | "[Streaming] Pull PubSub Messages"
-                    >> ReadFromPubSub(
-                        subscription=f"projects/{project_id}/subscriptions/{runtime_options.pubsub_subscription}"
-                    )
-                    | "[Streaming] Apply Fixed Windows"
-                    >> beam.WindowInto(FixedWindows(60))
-                    | "[Streaming] Parse Messages" >> beam.ParDo(ParseJSON())
-                    | "[Streaming] Show" >> beam.Map(lambda x: print(x))
-                    # | "[Session Start] Apply Session Start template"
-                    # >> beam.ParDo(SessionStartTemplate(service_account_email))
-                    # | "[Session Start] Upsert to BQ"
-                    # >> beam.ParDo(
-                    #     WriteToBQ(
-                    #         destination_project_id,
-                    #         dataset,
-                    #         table,
-                    #         dataset_errors,
-                    #         service_account_email,
-                    #     )
-                    # )
-                )
+            # elif mode == "streaming":
+            #     data = (
+            #         p
+            #         | "[Streaming] Pull PubSub Messages"
+            #         >> ReadFromPubSub(
+            #             subscription=f"projects/{project_id}/subscriptions/{runtime_options.pubsub_subscription}"
+            #         )
+            #         | "[Streaming] Apply Fixed Windows"
+            #         >> beam.WindowInto(FixedWindows(60))
+            #         | "[Streaming] Parse Messages" >> beam.ParDo(ParseJSON())
+            #         | "[Streaming] Show" >> beam.Map(lambda x: print(x))
+            #         # | "[Session Start] Apply Session Start template"
+            #         # >> beam.ParDo(SessionStartTemplate(service_account_email))
+            #         # | "[Session Start] Upsert to BQ"
+            #         # >> beam.ParDo(
+            #         #     WriteToBQ(
+            #         #         destination_project_id,
+            #         #         dataset,
+            #         #         table,
+            #         #         dataset_errors,
+            #         #         service_account_email,
+            #         #     )
+            #         # )
+            #     )
 
             # session_end = (
             #     p

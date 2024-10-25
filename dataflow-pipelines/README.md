@@ -90,7 +90,7 @@ python --version
 ```bash
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
-pip install --extra-index-url https://europe-west1-python.pkg.dev/sample-project/python-repo/simple/ gborelpy==0.4.0
+#pip install --extra-index-url https://europe-west1-python.pkg.dev/sample-project/python-repo/simple/ gborelpy==0.4.0
 ``` 
 This will install Apache Beam 2.57.0, some Google packages, our private package from Artifact Registry and `pip-tools`.
 
