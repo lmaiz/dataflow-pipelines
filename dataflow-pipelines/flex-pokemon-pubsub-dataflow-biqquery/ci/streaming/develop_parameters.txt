@@ -1,0 +1,4 @@
+--parameters mode=streaming
+--parameters pubsub_subscription=nx-pokemon-pubsub-sub
+--parameters dataset=nx_pokemon
+--parameters table_name=pokedex
