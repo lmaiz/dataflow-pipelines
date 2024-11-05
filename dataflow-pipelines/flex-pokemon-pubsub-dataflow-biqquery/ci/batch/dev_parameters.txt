@@ -1,0 +1,5 @@
+--parameters mode=batch
+--parameters bucket_name=nx-dataflow-data-dev
+--parameters file_path=nx-pokemon/pokemon.json
+--parameters dataset=nx_pokemon
+--parameters table_name=pokedex
