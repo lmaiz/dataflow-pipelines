@@ -13,7 +13,6 @@ from app.templates import PokemonTemplate
 from app.utils import GeneratePath, RecordCleaner
 from app.schema import POKEMON_SCHEMA
 
-
 def run(argv=None):
     pipeline_options = PipelineOptions()
     project_id = str(pipeline_options.view_as(GoogleCloudOptions).project)
