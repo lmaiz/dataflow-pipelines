@@ -29,14 +29,14 @@ However, streaming pipelines are more complex to manage. Specific concepts such 
 ### Types of Dataflow templates: Classic vs Flex
 Dataflow templates allow you to package a Dataflow pipeline for deployment. Old way is to use Classic template, new way is Flex template. Both have pros and cons:
 
-| Feature              | Dataflow Classic Templates       | Dataflow Flex Templates             |
-|----------------------|----------------------------------|-------------------------------------|
-| Job graph            | Static                           | Dynamic                             |
-| Input parameters     | Requires ValueProvider interface | Can use any type of input parameter |
-| Preprocessing        | Not supported                    | Supported                           |
-| Customization        | More limited                     | More flexible                       |
-| Developer experience | More familiar                    | More modern                         |
-| Recommended          | For old pipelines                | For new pipelines                   |
+| Feature              | Dataflow Classic Templates       | Dataflow Flex Templates                                                                                          |
+|----------------------|----------------------------------|------------------------------------------------------------------------------------------------------------------|
+| Job graph            | Static                           | Dynamic (the graph is built based on input parameters)                                                           |
+| Input parameters     | Requires ValueProvider interface | Can use any type of input parameter                                                                              |
+| Preprocessing        | Not supported                    | Supported                                                                                                        |
+| Customization        | More limited                     | More flexible                                                                                                    |
+| Packaging            | Template loaded in GCS           | Docker image in Artifact Registry with a template specification in GCS, containing a pointer to the Docker image |
+| Recommended          | For old pipelines                | For new pipelines                                                                                                |
 
 ## How to develop Dataflow pipelines
 Three ways:
@@ -52,7 +52,7 @@ You need to install:
 - WSL 2 with Ubuntu 22.04 if you're on Windows
 - [pyenv](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation) (to easily handle Python versions)
 - [gcloud](https://cloud.google.com/sdk/docs/install)
-- [protobuff compiler](https://grpc.io/docs/protoc-installation/)
+
 
 Useful Ruff commands in vscode:
 - Format imports
@@ -90,15 +90,10 @@ python --version
 ```bash
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
-#pip install --extra-index-url https://europe-west1-python.pkg.dev/sample-project/python-repo/simple/ gborelpy==0.4.0
 ``` 
 This will install Apache Beam 2.57.0, some Google packages, our private package from Artifact Registry and `pip-tools`.
 
-3. Install `protoc`:
-- For macOS, `brew install protobuf`
-- For Linux, TODO
-
-4. Initialize gcloud
+3. Initialize gcloud
 ```bash
 gcloud auth login
 gcloud auth application-default login
@@ -110,11 +105,11 @@ cd ~/gcp_pipelines/dataflow-pipelines
 pyenv local dataflow-pipelines-env
 ```
 
-## Workflow TODO: UPDATE WHEN TESTS ARE THERE
+## Workflow:
 
 1. `git checkout -b feature/GIA-XXX-my-branch`
 2. Create your pipeline folder (lowercase, beginning with "flex"). Copy-pasting from anoter pipeline is handy
-3. Run your code locally with `run_locally.sh`, either with `DirectRunner` or `DataflowRunner`
+3. Run your code locally with `directrunner.sh`, with the `DirectRunner`
 4. Add all necessary tests scripts to the `tests/` folder
 5. Use ruff CLI or ruff vscode to check and format your files
 6. Commit and push your work on your branch. This will trigger the Cloud Build CI in the `develop` project
@@ -160,21 +155,3 @@ Apache Beam:
 - [Beam college](https://github.com/griscz/beam-college/tree/main) (lots of use cases)
 - [Perform a Left Join](https://github.com/HocLengChung/Apache-Beam-Dataflow-for-public/tree/master)
 - [Fast Joins in streaming](https://www.ahalbert.com/technology/2023/07/08/fast_beam_joins.html)
-
-## UPSERT operations with Dataflow
-As of now (Apache Beam 2.57.0 Python SDK), there is no native way to perform an UPSERT operation against BigQuery.
-Two solutions are available, both of which are using a BigQuery Python client:
-- the RESTful approach
-- the gRPC approach 
-
-### SQL query (REST)
-1. Write your rows to a staging BigQuery table (e.g. `STAGING_CLIENTS`) using [`WriteToBigQuery`](https://beam.apache.org/releases/pydoc/current/apache_beam.io.gcp.bigquery.html#apache_beam.io.gcp.bigquery.WriteToBigQuery)
-2. Use a Python client to send a MERGE SQL query to BigQuery that will
-
-Pros:
-- Easy
-
-Cons:
--
-
-### Protobuff (gRPC)
