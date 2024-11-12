@@ -66,7 +66,7 @@ def run(argv=None):
             write_to_bq = (
                 input
                 | "Parse Messages" >> beam.ParDo(RecordCleaner())
-                | "Apply Pokemon template" >> beam.ParDo(PokemonTemplate(service_account_email))
+                | "Apply Pokemon template" >> beam.ParDo(PokemonTemplate())
                 | "Write to a BQ table" >> beam.io.WriteToBigQuery(
                     table=table_name,
                     dataset=dataset,
