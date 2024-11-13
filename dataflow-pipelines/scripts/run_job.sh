@@ -4,7 +4,7 @@ set -euo pipefail
 
 echo "##### Run the Dataflow Flex Template $PIPELINE_NAME pipeline #####"
 
-CLEAN_BRANCH_NAME=$(echo "$BRANCH_NAME" | tr '[:upper:]' '[:lower:]')
+CLEAN_BRANCH_NAME=$(echo "$BRANCH_NAME" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
 CLEAN_BRANCH_NAME="${CLEAN_BRANCH_NAME////-}"
 TEMPLATE_NAME=${PIPELINE_NAME}-${CLEAN_BRANCH_NAME}-${CI_SERVICE_NAME}
 SDK_CONTAINER_IMAGE=$LOCATION-docker.pkg.dev/$PROJECT_ID/$DOCKER_REPO_NAME/$TEMPLATE_NAME:latest
