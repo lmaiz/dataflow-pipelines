@@ -9,9 +9,9 @@ from apache_beam.transforms.window import FixedWindows
 from apache_beam.io.fileio import MatchAll
 
 from app.runtime_options import RuntimeOptions
-from app.templates import PokemonTemplate
-from app.utils import GeneratePath, RecordCleaner
+from app.utils import GeneratePath
 from app.schema import POKEMON_SCHEMA
+from app.utils import PokemonProcessing
 
 def run(argv=None):
     pipeline_options = PipelineOptions()
@@ -65,8 +65,7 @@ def run(argv=None):
                 
             write_to_bq = (
                 input
-                | "Parse Messages" >> beam.ParDo(RecordCleaner())
-                | "Apply Pokemon template" >> beam.ParDo(PokemonTemplate())
+                | PokemonProcessing()
                 | "Write to a BQ table" >> beam.io.WriteToBigQuery(
                     table=table_name,
                     dataset=dataset,
