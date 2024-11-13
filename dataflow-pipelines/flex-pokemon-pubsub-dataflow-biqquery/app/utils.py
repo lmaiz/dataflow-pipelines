@@ -3,7 +3,7 @@ import logging
 
 import apache_beam as beam
 
-from .schema import POKEMON_SCHEMA
+from .templates import PokemonTemplate
 
 class GeneratePath(beam.DoFn):
     def __init__(self, bucket_name, file_path):
@@ -24,3 +24,16 @@ class RecordCleaner(beam.DoFn):
                 yield json.loads(t)
             except json.JSONDecodeError as error:
                 logging.error(error)
+
+class PokemonProcessing(beam.PTransform):
+    """A transform to count the occurrences of each word.
+
+    A PTransform that converts a PCollection containing lines of text into a
+    PCollection of (word, count) tuples.
+    """
+    def expand(self, pcoll):
+
+        return (
+            pcoll
+            | "Parse Messages" >> beam.ParDo(RecordCleaner())
+            | "Apply Pokemon template" >> beam.ParDo(PokemonTemplate()))
