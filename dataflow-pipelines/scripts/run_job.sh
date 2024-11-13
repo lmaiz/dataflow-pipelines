@@ -10,6 +10,8 @@ TEMPLATE_NAME=${PIPELINE_NAME}-${CLEAN_BRANCH_NAME}-${CI_SERVICE_NAME}
 SDK_CONTAINER_IMAGE=$LOCATION-docker.pkg.dev/$PROJECT_ID/$DOCKER_REPO_NAME/$TEMPLATE_NAME:latest
 CI_FILE_PATH=dataflow-pipelines/$PIPELINE_NAME/ci/$MODE/${ENV}_parameters.txt
 
+echo "##### Run the $TEMPLATE_NAME pipeline #####"
+
 gcloud dataflow flex-template run "$TEMPLATE_NAME-$(date +%Y-%m-%d-%H%M%S)" \
   --template-file-gcs-location "gs://$DATAFLOW_BUCKET/$TEMPLATE_NAME.json" \
   --project="$PROJECT_ID" \
