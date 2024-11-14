@@ -15,7 +15,6 @@ if [ -s /workspace/changed_folders ]; then
             # Run tests for each Python file found
             echo "Running tests for $file"
             python -m tests/$file
-            fi
         done
         else
         echo "#### No Python files found in the 'tests' directory ####"
