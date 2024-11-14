@@ -10,18 +10,19 @@ if [ -s /workspace/changed_folders ]; then
         echo "##### Running unit tests for $PIPELINE_NAME #####"
 
         # Check if the 'tests' folder exists and is not empty
-        if [[ -d tests && -n $(ls -A tests) ]]; then
-            for file in $(find tests -type f); do
+        if [ -d tests ] && [ "$(find tests -type f)" ]; then
+            for file in $(find tests -type f -name "test*.py"); do
                 file_name=$(basename "$file")
-                if [[$file_name == test*.py]]; then
+                if [[ "$file_name" == test*.py ]]; then
                     # Run tests for each Python file found
                     echo "Running tests for $file_name"
                     python -m tests.$file_name
                 fi
             done
         else
-        echo "#### No Python files found in the 'tests' directory ####"
+            echo "#### No Python files found in the 'tests' directory ####"
         fi
+
 
         # Go back to the root directory before processing the next folder
         cd - > /dev/null
