@@ -24,6 +24,7 @@ class TestPokemonProcessing(unittest.TestCase):
      {"pokemon_name": "Lugia","types": ["Psychic","Flying"],"hp": 106,"attack": 90, "defense": 130, "special_atk": 90, "special_def": 154, "speed": 110, "generation_number": 2, "region": "Johto", "legendary": True}
   ]
 
+
   def test_pokemon_processing(self):
     with TestPipeline() as p:
 
