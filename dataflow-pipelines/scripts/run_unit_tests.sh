@@ -15,8 +15,9 @@ if [ -s /workspace/changed_folders ]; then
                 file_name=$(basename "$file")
                 if [[ "$file_name" == test*.py ]]; then
                     # Run tests for each Python file found
-                    echo "Running tests for $file_name"
-                    python -m tests.$file_name
+                    module_name="${file_name%.py}"
+                    echo "Running tests for $file_name file and $module_name module"
+                    python -m tests.$module_name
                 fi
             done
         else
