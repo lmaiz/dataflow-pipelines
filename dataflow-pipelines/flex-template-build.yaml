@@ -1,14 +1,4 @@
 steps:
-  # Tests stage
-  # - name: python:3.8.12-slim
-  #   entrypoint: bash
-  #   args:
-  #     - -c
-  #     - |
-  #       pip install 'pytest==7.3.1'
-  #       pip install 'pytest-custom-exit-code==0.3.0'
-  #       pip install -U -r team_league/requirements.txt
-  #       pytest -v --suppress-no-test-exit-code .
  
   # Step to determine changed folders
   - name: 'gcr.io/cloud-builders/git'
@@ -25,6 +15,15 @@ steps:
         fi
     env:
       - 'BRANCH_NAME=$BRANCH_NAME'
+
+  # Tests stage
+  - name: 'python:3.8-slim'
+    entrypoint: '/busybox/sh'
+    args:
+      - '-c'
+      - |
+        cd dataflow-pipelines/scripts/
+        ./run_unit_tests.sh
 
   # Build Flex Template Image stage
   - name: 'gcr.io/kaniko-project/executor:debug'
