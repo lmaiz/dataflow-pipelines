@@ -17,12 +17,12 @@ steps:
       - 'BRANCH_NAME=$BRANCH_NAME'
 
   # Tests stage
-  - name: 'python:3.8-slim'
+  - name: 'python:3.9-slim'
     entrypoint: '/bin/bash'
     args:
       - '-c'
       - |
-        pip install -r dataflow-pipelines/requirements.txt
+        pip install -U -r dataflow-pipelines/requirements.txt
         cd dataflow-pipelines/scripts/
         chmod +x run_unit_tests.sh
         ./run_unit_tests.sh
