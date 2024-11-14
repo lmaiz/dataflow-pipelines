@@ -23,6 +23,7 @@ steps:
       - '-c'
       - |
         cd dataflow-pipelines/scripts/
+        chmod +x run_unit_tests.sh
         ./run_unit_tests.sh
 
   # Build Flex Template Image stage
