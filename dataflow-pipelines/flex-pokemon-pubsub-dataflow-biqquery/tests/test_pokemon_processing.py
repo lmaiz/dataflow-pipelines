@@ -40,4 +40,7 @@ class TestPokemonProcessing(unittest.TestCase):
 if __name__=="__main__":
     loader = unittest.TestLoader()
     suite = loader.loadTestsFromModule(sys.modules[__name__])
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    # Raise an exception is not successfull
+    if not result.wasSuccessful():
+        raise Exception(f"Test suite failed.")
