@@ -22,6 +22,8 @@ steps:
     args:
       - '-c'
       - |
+        pip install --upgrade pip
+        pip install -r requirements.txt
         cd dataflow-pipelines/scripts/
         chmod +x run_unit_tests.sh
         ./run_unit_tests.sh
