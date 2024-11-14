@@ -17,6 +17,7 @@ class TestPokemonProcessing(unittest.TestCase):
      """{"Index":269,"Name":"Lugia","Type 1":"Psychic","Type 2":"Flying","Total":680,"HP":106,"Attack":90,"Defense":130,"Special_Atk":90,"Special_Def":154,"Speed":110,"Generation":2,"Legendary":true}"""
      ]
 
+
   # Our output data, which is the expected data that the final PCollection must match.
   EXPECTED_OUTPUTS = [
      {"pokemon_name": "Snivy","types": ["Grass"],"hp": 45,"attack": 45,"defense": 55,"special_atk": 45,"special_def": 55,"speed": 63,"generation_number": 5,"region": "Unys","legendary": False},
