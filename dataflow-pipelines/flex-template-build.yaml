@@ -22,7 +22,7 @@ steps:
     args:
       - '-c'
       - |
-        pip install -r ./requirements.txt
+        pip install -r dataflow-pipelines/requirements.txt
         cd dataflow-pipelines/scripts/
         chmod +x run_unit_tests.sh
         ./run_unit_tests.sh
