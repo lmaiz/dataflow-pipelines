@@ -18,7 +18,7 @@ steps:
 
   # Tests stage
   - name: 'python:3.8-slim'
-    entrypoint: '/busybox/sh'
+    entrypoint: '/bin/bash'
     args:
       - '-c'
       - |
@@ -32,6 +32,7 @@ steps:
       - '-c'
       - |
         cd dataflow-pipelines/scripts/
+        chmod u+r+x run_unit_tests.sh
         ./build_with_kaniko.sh
     env:
       - 'LOCATION=$LOCATION'
