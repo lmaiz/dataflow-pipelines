@@ -18,7 +18,7 @@ steps:
 
   # Tests stage
   - name: 'python:3.8-slim'
-    entrypoint: '/busybox/sh'
+    entrypoint: '/bin/bash'
     args:
       - '-c'
       - |
