@@ -20,7 +20,7 @@ class TestPokemonProcessing(unittest.TestCase):
   # Our output data, which is the expected data that the final PCollection must match.
   EXPECTED_OUTPUTS = [
      {"pokemon_name": "Snivy","types": ["Grass"],"hp": 45,"attack": 45,"defense": 55,"special_atk": 45,"special_def": 55,"speed": 63,"generation_number": 5,"region": "Unys","legendary": False},
-     {"pokemon_name": "Charmeleon","types": ["Fire"],"hp": 58,"attack": 64, "defense": 58, "special_atk": 80, "special_def": 65, "speed": 80, "generation_number": 1, "region": "Kanto", "legendary": False},
+     {"pokemon_name": "Charmeleon","types": ["Fire"],"hp": 158,"attack": 64, "defense": 58, "special_atk": 80, "special_def": 65, "speed": 80, "generation_number": 1, "region": "Kanto", "legendary": False},
      {"pokemon_name": "Lugia","types": ["Psychic","Flying"],"hp": 106,"attack": 90, "defense": 130, "special_atk": 90, "special_def": 154, "speed": 110, "generation_number": 2, "region": "Johto", "legendary": True}
   ]
 
