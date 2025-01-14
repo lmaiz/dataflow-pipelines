@@ -13,6 +13,7 @@ from app.utils import GeneratePath
 from app.schema import POKEMON_SCHEMA
 from app.utils import PokemonProcessing
 
+
 def run(argv=None):
     pipeline_options = PipelineOptions()
     project_id = str(pipeline_options.view_as(GoogleCloudOptions).project)
