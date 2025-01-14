@@ -62,7 +62,8 @@ def run(argv=None):
                     | "[Streaming] Apply Fixed Windows" >> beam.WindowInto(FixedWindows(60))
                     | '[Streaming] Decode Message' >> beam.Map(lambda msg: msg.decode('utf-8'))
                 )
-                
+
+          
             write_to_bq = (
                 input
                 | PokemonProcessing()
